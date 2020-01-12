@@ -94,6 +94,8 @@ void State::save(const std::string & path){
 	configFile << keyboard.majorColor[0] << " " << keyboard.majorColor[1] << " " << keyboard.majorColor[2] << std::endl;
 	configFile << keyboard.minorColor[0] << " " << keyboard.minorColor[1] << " " << keyboard.minorColor[2] << std::endl;
 
+	configFile << noteRadius;
+
 	configFile.close();
 }
 
@@ -199,6 +201,7 @@ void State::load(const std::string & path){
 		configFile >> keyboard.customKeyColors;
 		configFile >> keyboard.majorColor[0] >> keyboard.majorColor[1] >> keyboard.majorColor[2];
 		configFile >> keyboard.minorColor[0] >> keyboard.minorColor[1] >> keyboard.minorColor[2];
+		configFile >> noteRadius;
 	}
 	
 	configFile.close();
@@ -249,6 +252,8 @@ void State::reset(){
 	keyboard.customKeyColors = false;
 	keyboard.majorColor = baseColor;
 	keyboard.minorColor = minorColor;
+
+	noteRadius = 0.25f;
 
 	for (int i = 0; i < layersMap.size(); ++i) {
 		layersMap[i] = i;

@@ -215,7 +215,7 @@ void Renderer::blurPrepass() {
 	}
 	if (_state.showBlurNotes) {
 		// Draw the notes.
-		_scene->drawNotes(_timer, invSizeB, _state.baseColor, _state.minorColor, true);
+		_scene->drawNotes(_timer, invSizeB, _state.baseColor, _state.minorColor, _state.noteRadius, true);
 	}
 
 	_particlesFramebuffer->unbind();
@@ -264,7 +264,7 @@ void Renderer::drawKeyboard(const glm::vec2 & invSize) {
 }
 
 void Renderer::drawNotes(const glm::vec2 & invSize) {
-	_scene->drawNotes(_timer, invSize, _state.baseColor, _state.minorColor, false);
+	_scene->drawNotes(_timer, invSize, _state.baseColor, _state.minorColor, _state.noteRadius, false);
 }
 
 void Renderer::drawFlashes(const glm::vec2 & invSize) {
@@ -326,25 +326,37 @@ void Renderer::drawGUI(const float currentTime) {
 			resize(int(_camera._screenSize[0]), int(_camera._screenSize[1]));
 		}
 
-		const bool smw0 = ImGui::InputFloat("Scale", &_state.scale, 0.01f, 0.1f);
-		ImGui::SameLine(160);
-		bool smw1 = ImGui::SliderFloat("Minor size", &_state.background.minorsWidth, 0.1f, 1.0f, "%.2f");
-		
-		ImGui::PopItemWidth();
+		bool smw0;
+		bool smw1;
 
-		ImGui::PushItemWidth(25);
-		bool colNotesEdit = ImGui::ColorEdit3("Notes", &_state.baseColor[0],
-			ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine();
-		bool colMinorsEdit = ImGui::ColorEdit3("Minors", &_state.minorColor[0],
-			ImGuiColorEditFlags_NoInputs);
-		ImGui::PopItemWidth();
-		ImGui::SameLine();
+		bool colNotesEdit;
+		bool colMinorsEdit;
 
-		if (ImGui::Checkbox("Sync colors", &_state.lockParticleColor)) {
-			// If we enable the lock, make sure the colors are synched.
-			colNotesEdit = true;
+		if (_state.showNotes && ImGui::CollapsingHeader("Notes##HEADER")) {
+			bool smw0 = ImGui::InputFloat("Scale", &_state.scale, 0.01f, 0.1f);
+			ImGui::SameLine(160);
+			bool smw1 = ImGui::SliderFloat("Minor size", &_state.background.minorsWidth, 0.1f, 1.0f, "%.2f");
+
+			ImGui::PopItemWidth();
+
+			ImGui::PushItemWidth(25);
+			bool colNotesEdit = ImGui::ColorEdit3("Notes", &_state.baseColor[0],
+				ImGuiColorEditFlags_NoInputs);
+			ImGui::SameLine();
+			bool colMinorsEdit = ImGui::ColorEdit3("Minors", &_state.minorColor[0],
+				ImGuiColorEditFlags_NoInputs);
+			ImGui::PopItemWidth();
+			ImGui::SameLine();
+
+			if (ImGui::Checkbox("Sync colors", &_state.lockParticleColor)) {
+				// If we enable the lock, make sure the colors are synched.
+				colNotesEdit = true;
+			}
+
+			ImGui::PushItemWidth(100);
+			ImGui::SliderFloat("Corners", &_state.noteRadius, 0.0f, 0.5f, "%.2f");
 		}
+		
 
 		bool colFlashesEdit = false;
 		if (_state.showFlashes && ImGui::CollapsingHeader("Flashes##HEADER")) {
@@ -727,6 +739,7 @@ void Renderer::applyAllSettings() {
 	_scene->setParticlesParameters(_state.particles.speed, _state.particles.expansion);
 	_score->setDisplay(_state.background.digits, _state.background.hLines, _state.background.vLines);
 	_score->setColors(_state.background.linesColor, _state.background.textColor, _state.background.keysColor);
+	_scene->setNoteRadius(_state.noteRadius);
 
 	// Reset buffers.
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

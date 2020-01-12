@@ -78,6 +78,7 @@ public:
 	glm::vec3 baseColor;
 	glm::vec3 minorColor;
 	glm::vec3 flashColor;
+	float noteRadius;
 	float scale;
 	float attenuation;
 	float flashSize;

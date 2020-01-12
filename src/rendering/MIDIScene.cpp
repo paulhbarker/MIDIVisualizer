@@ -197,6 +197,13 @@ void MIDIScene::setScaleAndMinorWidth(const float scale, const float minorWidth)
 	glUseProgram(0);
 }
 
+void MIDIScene::setNoteRadius(const float radius) {
+	glUseProgram(_programId);
+	GLuint radiusId = glGetUniformLocation(_programId, "noteRadius");
+	glUniform1f(radiusId, radius);
+	glUseProgram(0);
+}
+
 void MIDIScene::setParticlesParameters(const float speed, const float expansion){
 	glUseProgram(_programParticulesId);
 	GLuint id0 = glGetUniformLocation(_programParticulesId, "speedScaling");
@@ -302,8 +309,9 @@ void MIDIScene::drawParticles(float time, const glm::vec2 & invScreenSize, const
 
 }
 
-void MIDIScene::drawNotes(float time, const glm::vec2 & invScreenSize, const glm::vec3 & majorColor, const glm::vec3 & minorColor, bool prepass){
+void MIDIScene::drawNotes(float time, const glm::vec2 & invScreenSize, const glm::vec3 & majorColor, const glm::vec3 & minorColor, float radius, bool prepass){
 	
+	glEnable(GL_BLEND);
 	glUseProgram(_programId);
 	
 	// Uniforms setup.
@@ -311,8 +319,10 @@ void MIDIScene::drawNotes(float time, const glm::vec2 & invScreenSize, const glm
 	GLuint timeId = glGetUniformLocation(_programId, "time");
 	GLuint colorId = glGetUniformLocation(_programId, "baseColor");
 	GLuint colorMinId = glGetUniformLocation(_programId, "minorColor");
+	GLuint radiusId = glGetUniformLocation(_programId, "noteRadius");
 	glUniform2fv(screenId,1, &(invScreenSize[0]));
 	glUniform1f(timeId,time);
+	glUniform1f(radiusId, radius);
 	if(prepass){
 		glUniform3f(colorId, 0.6f*majorColor[0], 0.6f*majorColor[1], 0.6f*majorColor[2]);
 		glUniform3f(colorMinId, 0.6f*minorColor[0], 0.6f*minorColor[1], 0.6f*minorColor[2]);

@@ -18,7 +18,7 @@ public:
 	void updatesActiveNotes(double time);
 	
 	/// Draw function
-	void drawNotes(float time, const glm::vec2 & invScreenSize, const glm::vec3 & majorColor, const glm::vec3 & minorColor, bool prepass);
+	void drawNotes(float time, const glm::vec2 & invScreenSize, const glm::vec3 & majorColor, const glm::vec3 & minorColor, float radius, bool prepass);
 	
 	void drawFlashes(float time, const glm::vec2 & invScreenSize, const glm::vec3 & baseColor, float userScale);
 	
@@ -32,6 +32,8 @@ public:
 	const MIDIFile& midiFile() { return _midiFile; }
 	
 	void setScaleAndMinorWidth(const float scale, const float minorWidth);
+
+	void setNoteRadius(const float radius);
 
 	void setParticlesParameters(const float speed, const float expansion);
 	
