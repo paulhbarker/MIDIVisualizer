@@ -11,8 +11,8 @@
 
 #include "rendering/Renderer.h"
 
-#define INITIAL_SIZE_WIDTH 1280
-#define INITIAL_SIZE_HEIGHT 600
+#define INITIAL_SIZE_WIDTH 1920
+#define INITIAL_SIZE_HEIGHT 1080
 
 
 void printHelp(){

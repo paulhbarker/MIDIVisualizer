@@ -94,7 +94,7 @@ void State::save(const std::string & path){
 	configFile << keyboard.majorColor[0] << " " << keyboard.majorColor[1] << " " << keyboard.majorColor[2] << std::endl;
 	configFile << keyboard.minorColor[0] << " " << keyboard.minorColor[1] << " " << keyboard.minorColor[2] << std::endl;
 
-	configFile << noteRadius;
+	configFile << noteRadius << std::endl;
 
 	configFile.close();
 }

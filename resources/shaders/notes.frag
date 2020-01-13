@@ -42,9 +42,9 @@ void main(){
     float b = udRoundBox( fragCoord.xy - halfRes, halfRes, r );
     
     // colorize
-	vec3 base = mix(baseColor, minorColor, In.isMinor);
-	vec4 rounding = mix(vec4(base, 1.0), vec4(0.0), step(0.0, b));
-        
-    fragColor = vec4(rounding);
+    fragColor.rgb = mix(baseColor, minorColor, In.isMinor);
 
+	// Handle note rounding in alpha channel
+	float alpha = mix(1.0, 0.0, smoothstep(0.0, 0.0025, b));
+	fragColor.a = alpha;
 }
