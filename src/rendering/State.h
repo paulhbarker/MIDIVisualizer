@@ -65,8 +65,8 @@ public:
 	};
 
 	struct KeyboardState {
-		glm::vec3 majorColor;
-		glm::vec3 minorColor;
+		glm::vec3 majorColor = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 minorColor = glm::vec3(0.0f, 0.0f, 0.0f);
 		bool highlightKeys;
 		bool customKeyColors;
 	};
@@ -75,10 +75,10 @@ public:
 	ParticlesState particles;
 	KeyboardState keyboard;
 	Quality::Level quality;
-	glm::vec3 baseColor;
+	glm::vec3 baseColor = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 minorColor;
 	glm::vec3 flashColor;
-	float noteRadius;
+	float noteRadius = 0.45f;
 	float scale;
 	float attenuation;
 	float flashSize;

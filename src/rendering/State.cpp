@@ -208,24 +208,24 @@ void State::load(const std::string & path){
 }
 
 void State::reset(){
-	baseColor = 1.35f*glm::vec3(0.57f,0.19f,0.98f);
-	minorColor = 0.8f*baseColor;
+	baseColor = glm::vec3(0.0f,0.0f,0.0f);
+	minorColor = baseColor;
 	flashColor = baseColor;
-	background.color = glm::vec3(0.0f, 0.0f, 0.0f) ;
+	background.color = glm::vec3(0.0f, 1.0f, 0.0f) ;
 	background.linesColor = glm::vec3(1.0f, 1.0f, 1.0f);
 	background.textColor = glm::vec3(1.0f, 1.0f, 1.0f);
 	background.keysColor = glm::vec3(0.0f, 0.0f, 0.0f);
 	particles.color = baseColor;
 	
-	scale = 0.5f ;
+	scale = 0.5f;
 	attenuation = 0.99f;
-	showParticles = true ;
-	showFlashes = true ;
-	showBlur = true ;
-	showBlurNotes = false ;
-	lockParticleColor = true ;
+	showParticles = false;
+	showFlashes = true;
+	showBlur = false;
+	showBlurNotes = false;
+	lockParticleColor = true;
 	showNotes = true;
-	showScore = true;
+	showScore = false;
 	showKeyboard = true;
 	flashSize = 1.0f;
 	
@@ -246,14 +246,14 @@ void State::reset(){
 	particles.tex = blankID;
 	particles.texCount = 1;
 	
-	quality = Quality::MEDIUM;
-	prerollTime = 1.0f;
+	quality = Quality::HIGH;
+	prerollTime = 0.0f;
 	keyboard.highlightKeys = true;
 	keyboard.customKeyColors = false;
 	keyboard.majorColor = baseColor;
 	keyboard.minorColor = minorColor;
 
-	noteRadius = 0.25f;
+	noteRadius = 0.45f;
 
 	for (int i = 0; i < layersMap.size(); ++i) {
 		layersMap[i] = i;

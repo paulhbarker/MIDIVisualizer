@@ -16,7 +16,7 @@ uniform vec2 inverseScreenSize;
 out vec4 fragColor;
 
 float udRoundBox(vec2 p, vec2 b, float r) {
-    return length(max(abs(p)-b+r, 0.0))-r;
+    return length(max(abs(p) - b + r, 0.0))-r;
 }
 
 vec2 getFragCoord () {
@@ -35,7 +35,7 @@ void main(){
     vec2 fragCoord = getFragCoord() * aspectRatio;
 
     // setup
-    float r = min(iResolution.x * aspectRatio.x, iResolution.y) * (0.01 + noteRadius);
+    float r = min(iResolution.x * aspectRatio.x, iResolution.y) * (0.001 + noteRadius);
     vec2 halfRes = 0.5 * iResolution.xy * aspectRatio;
 
     // compute box
@@ -45,6 +45,6 @@ void main(){
     fragColor.rgb = mix(baseColor, minorColor, In.isMinor);
 
 	// Handle note rounding in alpha channel
-	float alpha = mix(1.0, 0.0, smoothstep(0.0, 0.0025, b));
+	float alpha = mix(1.0, 0.0, smoothstep(-0.0025, 0.0, b));
 	fragColor.a = alpha;
 }

@@ -26,7 +26,7 @@ void main(){
 	float scalingFactor = isMinor != 0.0 ? minorsWidth : 1.0;
 
 	float width = noteWidth / notesCount * scalingFactor;
-	float height = duration * mainSpeed;
+	float height = max(duration * mainSpeed, 0.05);
 
 	Out.noteSize = vec2(width, height);
 	
