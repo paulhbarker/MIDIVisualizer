@@ -89,7 +89,7 @@ private:
 	State _state;
 	std::array<Layer, 8> _layers;
 
-	int _exportFramerate;
+	float _exportFramerate;
 	float _timer;
 	float _timerStart;
 	bool _shouldPlay;

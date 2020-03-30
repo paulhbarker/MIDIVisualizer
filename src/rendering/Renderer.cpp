@@ -21,7 +21,7 @@ Renderer::~Renderer() {}
 void Renderer::init(int width, int height) {
 	_showGUI = true;
 	_showDebug = false;
-	_exportFramerate = 60;
+	_exportFramerate = 60.0;
 	_performExport = 0;
 
 	ResourcesManager::loadResources();
@@ -133,7 +133,7 @@ void Renderer::draw(const float currentTime) {
 			if (ImGui::BeginPopupModal("Exporting...", NULL,
 				ImGuiWindowFlags_AlwaysAutoResize)) {
 				const int framesCount =
-					int(std::ceil((_scene->duration() + 10.0) * float(_exportFramerate)));
+					int(std::ceil((_scene->duration() + 10.0) * _exportFramerate));
 				ImGui::Text("Scene duration: %ds. (+10s. buffer).",
 					int(std::round(_scene->duration())));
 				ImGui::Text("Framerate: %d fps.", _exportFramerate);
@@ -153,7 +153,7 @@ void Renderer::draw(const float currentTime) {
 		else {
 			// After the popup animation, start the real export.
 			_performExport = 0;
-			renderFile(_exportPath, float(_exportFramerate));
+			renderFile(_exportPath, _exportFramerate);
 		}
 	}
 
@@ -594,7 +594,7 @@ void Renderer::drawGUI(const float currentTime) {
 		}
 		ImGui::SameLine(160);
 		ImGui::PushItemWidth(100);
-		ImGui::InputInt("Rate", &_exportFramerate);
+		ImGui::InputFloat("Rate", &_exportFramerate);
 		ImGui::PopItemWidth();
 
 		if (_showDebug) {
@@ -665,8 +665,7 @@ void Renderer::showLayers() {
 	ImGui::End();
 }
 
-void Renderer::renderFile(const std::string &outputDirPath,
-	const float frameRate) {
+void Renderer::renderFile(const std::string &outputDirPath, const float frameRate) {
 	_showGUI = false;
 	// Reset.
 	_timer = -_state.prerollTime;
